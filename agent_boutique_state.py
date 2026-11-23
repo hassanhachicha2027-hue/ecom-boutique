@@ -20,13 +20,15 @@ from langgraph.graph.message import add_messages
 from langgraph.prebuilt import ToolNode
 from langgraph.types import Command, interrupt
 
-from indexer import connecter_chroma
+from indexer import connecter_chroma, index_vide, indexer_politique
 from outils_base import OUTILS_SQL
 
 load_dotenv()
 
 # ---------- Outils, prompt et modèle ----------
 vector_store = connecter_chroma()
+if index_vide(vector_store):  # chroma_db/ absent (déploiement, dossier supprimé) : on indexe
+    indexer_politique(vector_store)
 
 
 @tool
